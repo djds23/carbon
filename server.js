@@ -17,6 +17,7 @@ if (!dev) {
 function wrap(handler) {
   return (req, res) =>
     handler(req, res).catch(err => {
+      // eslint-disable-next-line
       console.log('ERR:', err)
       res.status(400).end()
     })
@@ -36,8 +37,17 @@ app
     // set up
     const server = express()
     const imageHandler = require('./handlers/image')(browser)
+    const unsplashHandler = require('./handlers/unsplash')
 
-    server.use(morgan('tiny'))
+    if (dev) {
+      server.use(morgan('tiny'))
+    }
+
+    // api endpoints
+    server.post('/twitter', bodyParser.json({ limit: '5mb' }), require('./handlers/twitter'))
+    server.post('/image', bodyParser.json({ limit: '5mb' }), wrap(imageHandler))
+    server.get('/unsplash/random', wrap(unsplashHandler.randomImages))
+    server.get('/unsplash/download/:imageId', wrap(unsplashHandler.downloadImage))
 
     server.get('/about', (req, res) => app.render(req, res, '/about'))
 
@@ -47,12 +57,9 @@ app
     // otherwise, try and get gist
     server.get('*', handle)
 
-    // api endpoints
-    server.post('/twitter', bodyParser.json({ limit: '5mb' }), require('./handlers/twitter'))
-    server.post('/image', bodyParser.json({ limit: '5mb' }), wrap(imageHandler))
-
     server.listen(port, '0.0.0.0', err => {
       if (err) throw err
+      // eslint-disable-next-line
       console.log(`> Ready on http://localhost:${port}`)
     })
   })

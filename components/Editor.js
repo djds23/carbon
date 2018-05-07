@@ -6,14 +6,13 @@ import domtoimage from 'dom-to-image'
 import ReadFileDropContainer, { DATA_URL, TEXT } from 'dropperx'
 
 // Ours
-import Page from '../components/Page'
-import Button from '../components/Button'
-import Dropdown from '../components/Dropdown'
-import BackgroundSelect from '../components/BackgroundSelect'
-import Settings from '../components/Settings'
-import Toolbar from '../components/Toolbar'
-import Overlay from '../components/Overlay'
-import Carbon from '../components/Carbon'
+import Button from './Button'
+import Dropdown from './Dropdown'
+import BackgroundSelect from './BackgroundSelect'
+import Settings from './Settings'
+import Toolbar from './Toolbar'
+import Overlay from './Overlay'
+import Carbon from './Carbon'
 import api from '../lib/api'
 import {
   THEMES,
@@ -29,8 +28,8 @@ import {
   DEFAULT_CODE,
   DEFAULT_SETTINGS
 } from '../lib/constants'
-import { getQueryStringState, updateQueryString, serializeState } from '../lib/routing'
-import { getState, saveState } from '../lib/util'
+import { serializeState } from '../lib/routing'
+import { getState } from '../lib/util'
 
 const saveButtonOptions = {
   button: true,
@@ -40,33 +39,13 @@ const saveButtonOptions = {
 }
 
 class Editor extends React.Component {
-  static async getInitialProps({ asPath, query }) {
-    const path = removeQueryString(asPath.split('/').pop())
-    const queryParams = getQueryStringState(query)
-    const initialState = Object.keys(queryParams).length ? queryParams : null
-    try {
-      // TODO fix this hack
-      if (path.length >= 19 && path.indexOf('.') === -1) {
-        const content = await api.getGist(path)
-        return { content, initialState }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-    return { initialState }
-  }
-
   constructor(props) {
     super(props)
-    this.state = Object.assign(
-      {
-        ...DEFAULT_SETTINGS,
-        uploading: false,
-        code: props.content,
-        _initialState: this.props.initialState
-      },
-      this.props.initialState
-    )
+    this.state = {
+      ...DEFAULT_SETTINGS,
+      uploading: false,
+      code: props.content
+    }
 
     this.save = this.save.bind(this)
     this.upload = this.upload.bind(this)
@@ -83,22 +62,15 @@ class Editor extends React.Component {
   }
 
   componentDidMount() {
-    // Load from localStorage instead of query params
-    if (!this.state._initialState) {
-      const state = getState(localStorage)
-      if (state) {
-        this.setState(state)
-      }
-    }
+    // Load from localStorage and then URL params
+    this.setState({
+      ...getState(localStorage),
+      ...this.props.initialState
+    })
   }
 
   componentDidUpdate() {
-    updateQueryString(this.state)
-    const s = { ...this.state }
-    delete s.code
-    delete s.backgroundImage
-    delete s.backgroundImageSelection
-    saveState(localStorage, s)
+    this.props.onUpdate(this.state)
   }
 
   getCarbonImage({ format, type } = { format: 'png' }) {
@@ -126,21 +98,34 @@ class Editor extends React.Component {
         'transform-origin': 'center',
         background: this.state.squaredImage ? this.state.backgroundColor : 'none'
       },
-      filter: n => (n.className ? String(n.className).indexOf('eliminateOnRender') < 0 : true),
+      filter: n => {
+        // %[00 -> 19] cause failures
+        if (n.innerText && n.innerText.match(/%[0-1][0-9]/)) {
+          return false
+        }
+        if (n.className) {
+          return String(n.className).indexOf('eliminateOnRender') < 0
+        }
+        return true
+      },
       width,
-      height,
-      // %[00 -> 19] cause failures
-      filter: node => !(node.innerText && node.innerText.match(/%[0-1][0-9]/))
+      height
     }
 
-    if (type === 'blob')
-      return domtoimage
-        .toBlob(node, config)
-        .then(blob => window.URL.createObjectURL(blob, { type: 'image/png' }))
+    if (type === 'blob') {
+      if (format === 'svg') {
+        return domtoimage
+        .toSvg(node, config)
+        .then(dataUrl => dataUrl.split('&nbsp;').join('&#160;'))
+        .then(uri => uri.slice(uri.indexOf(',') + 1))
+        .then(data => new Blob([data], { type: 'image/svg+xml' }))
+        .then(data => window.URL.createObjectURL(data))
+      }
 
-    if (format === 'svg')
-      return domtoimage.toSvg(node, config).then(dataUrl => dataUrl.split('&nbsp;').join('&#160;'))
+      return domtoimage.toBlob(node, config).then(blob => window.URL.createObjectURL(blob))
+    }
 
+    // Twitter needs regular dataurls
     return domtoimage.toPng(node, config)
   }
 
@@ -151,9 +136,7 @@ class Editor extends React.Component {
   save({ id: format = 'png' }) {
     const link = document.createElement('a')
 
-    const type = format === 'png' ? 'blob' : undefined
-
-    return this.getCarbonImage({ format, type }).then(url => {
+    return this.getCarbonImage({ format, type: 'blob' }).then(url => {
       link.download = `carbon.${format}`
       link.href = url
       document.body.appendChild(link)
@@ -170,12 +153,10 @@ class Editor extends React.Component {
   upload() {
     this.setState({ uploading: true })
     this.getCarbonImage({ format: 'png' })
-      .then(api.tweet)
+      .then(this.props.tweet)
+      // eslint-disable-next-line
+      .catch(console.error)
       .then(() => this.setState({ uploading: false }))
-      .catch(err => {
-        console.error(err)
-        this.setState({ uploading: false })
-      })
   }
 
   onDrop([file]) {
@@ -198,13 +179,20 @@ class Editor extends React.Component {
     this.updateSetting('language', language.mime || language.mode)
   }
 
-  updateBackground(changes, cb) {
-    this.setState(changes, cb)
+  updateBackground({ photographer, ...changes } = {}) {
+    if (photographer) {
+      this.setState(({ code = DEFAULT_CODE }) => ({
+        ...changes,
+        code: code + `\n\n// Photo by ${photographer.name} on Unsplash`
+      }))
+    } else {
+      this.setState(changes)
+    }
   }
 
   render() {
     return (
-      <Page enableHeroText={true}>
+      <React.Fragment>
         <div id="editor">
           <Toolbar>
             <Dropdown
@@ -216,7 +204,8 @@ class Editor extends React.Component {
               selected={
                 LANGUAGE_NAME_HASH[this.state.language] ||
                 LANGUAGE_MIME_HASH[this.state.language] ||
-                LANGUAGE_MODE_HASH[this.state.language]
+                LANGUAGE_MODE_HASH[this.state.language] ||
+                'auto'
               }
               list={LANGUAGES}
               onChange={this.updateLanguage}
@@ -234,13 +223,15 @@ class Editor extends React.Component {
               resetDefaultSettings={this.resetDefaultSettings}
             />
             <div className="buttons">
-              <Button
-                className="tweetButton"
-                onClick={this.upload}
-                title={this.state.uploading ? 'Loading...' : 'Tweet Image'}
-                color="#57b5f9"
-                style={{ marginRight: '8px' }}
-              />
+              {this.props.tweet && (
+                <Button
+                  className="tweetButton"
+                  onClick={this.upload}
+                  title={this.state.uploading ? 'Loading...' : 'Tweet Image'}
+                  color="#57b5f9"
+                  style={{ marginRight: '8px' }}
+                />
+              )}
               <Dropdown {...saveButtonOptions} onChange={this.save} />
             </div>
           </Toolbar>
@@ -279,17 +270,9 @@ class Editor extends React.Component {
             }
           `}
         </style>
-      </Page>
+      </React.Fragment>
     )
   }
-}
-
-function removeQueryString(str) {
-  const qI = str.indexOf('?')
-  return (qI >= 0 ? str.substr(0, qI) : str)
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\//g, '&#x2F;')
 }
 
 function isImage(file) {
@@ -301,6 +284,10 @@ function readAs(file) {
     return DATA_URL
   }
   return TEXT
+}
+
+Editor.defaultProps = {
+  onUpdate: () => {}
 }
 
 export default DragDropContext(HTML5Backend)(Editor)

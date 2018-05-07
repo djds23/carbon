@@ -10,6 +10,26 @@ export default () => (
       }
 
       @font-face {
+        font-family: 'Monoid';
+        src: url('//cdn.jsdelivr.net/npm/@typopro/web-monoid@3.7.5/TypoPRO-Monoid-Regular.woff')
+            format('woff2'),
+          url('//cdn.jsdelivr.net/npm/@typopro/web-monoid@3.7.5/TypoPRO-Monoid-Regular.woff')
+            format('woff');
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: 'Fantasque Sans Mono';
+        src: url('//cdn.jsdelivr.net/npm/@typopro/web-fantasque-sans-mono@3.7.5/TypoPRO-FantasqueSansMono-Regular.woff')
+            format('woff2'),
+          url('//cdn.jsdelivr.net/npm/@typopro/web-fantasque-sans-mono@3.7.5/TypoPRO-FantasqueSansMono-Regular.woff')
+            format('woff');
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
         font-family: 'Hack';
         src: url('//cdn.jsdelivr.net/font-hack/2.020/fonts/woff2/hack-regular-webfont.woff2?v=2.020')
             format('woff2'),
@@ -27,6 +47,19 @@ export default () => (
             format('woff');
         font-weight: 400;
         font-style: normal;
+      }
+
+      /* latin */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: italic;
+        font-weight: 500;
+        src: local('IBM Plex Mono Medium Italic'), local('IBMPlexMono-MediumItalic'),
+          url(https://fonts.gstatic.com/s/ibmplexmono/v2/-F6sfjptAgt5VM-kVkqdyU8n1ioSJlR1gMoQPttozw.woff2)
+            format('woff2');
+        unicode-range: U + 0000-00ff, U + 0131, U + 0152-0153, U + 02bb-02bc, U + 02c6, U + 02da,
+          U + 02dc, U + 2000-206f, U + 2074, U + 20ac, U + 2122, U + 2191, U + 2193, U + 2212,
+          U + 2215, U + FEFF, U + FFFD;
       }
 
       /* latin */

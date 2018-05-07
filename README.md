@@ -6,8 +6,10 @@
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![MIT License](https://img.shields.io/github/license/dawnlabs/carbon.svg)](https://github.com/dawnlabs/carbon/blob/master/LICENSE)
+[![Greenkeeper badge](https://badges.greenkeeper.io/dawnlabs/carbon.svg)](https://greenkeeper.io/)
 <br></br>
 [![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/dawnlabs/carbon&env=TWITTER_CONSUMER_KEY&env=TWITTER_CONSUMER_SECRET&env=TWITTER_ACCESS_TOKEN_KEY&env=TWITTER_ACCESS_TOKEN_SECRET&env=LOGS_SECRET_PREFIX)
+
 
 ## Introduction
 
@@ -52,25 +54,7 @@ Check out these projects our awesome community has created:
 - [Emacs `carbon-now-sh`](https://github.com/veelenga/carbon-now-sh.el) - Open up the selection in your current Emacs using interactive function `carbon-now-sh`
 
 ## Contribute
-
-If you have discovered a bug or have a feature suggestion, feel free to create an issue on Github.
-
-If you'd like to make some changes yourself, see the following:
-1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device
-2. Make sure yarn is globally installed (`npm install -g yarn`)
-3. Run `yarn` to download required packages.
-4. Build and start the application: `yarn dev`
-5. If you contributed something new, run `yarn contrib:add <your GitHub username>` to add yourself [below](#contributors)
-6. Finally, submit a [pull request](https://help.github.com/articles/creating-a-pull-request-from-a-fork/) with your changes!
-
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind are welcome!
-
-### A note on adding themes/languages
-We're happy to accept any PRs adding new themes and languages to Carbon! Currently there are a few ways to do so:
-
-1. If the [theme](https://codemirror.net/demo/theme.html) or [language](https://codemirror.net/mode/index.html) is supported in Codemirror, all you have to do is add a [constant](https://github.com/dawnlabs/carbon/blob/master/lib/constants.js) for it.
-
-2. If it's not supported, you can add a Codemirror compliant [custom file](https://github.com/dawnlabs/carbon/tree/master/lib/customModes) to implement it and add a constant like above.
+PRs welcome! Please see our [CONTRIBUTING.md](https://github.com/dawnlabs/carbon/blob/master/.github/CONTRIBUTING.md) for more details.
 
 ## Thanks To
 [ ▲ ZEIT ](https://zeit.co/) for sponsoring Carbon's hosting.
@@ -92,4 +76,5 @@ Thanks goes out to all these wonderful people ([emoji key](https://github.com/ke
 | [<img src="https://avatars1.githubusercontent.com/u/225946?v=4" width="100px;"/><br /><sub><b>otobrglez</b></sub>](https://github.com/otobrglez)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=otobrglez "Code") | [<img src="https://avatars3.githubusercontent.com/u/11488612?v=4" width="100px;"/><br /><sub><b>darahak</b></sub>](https://github.com/darahak)<br />[📖](https://github.com/dawnlabs/carbon/commits?author=darahak "Documentation") | [<img src="https://avatars0.githubusercontent.com/u/246651?v=4" width="100px;"/><br /><sub><b>dom96</b></sub>](https://github.com/dom96)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=dom96 "Code") | [<img src="https://avatars3.githubusercontent.com/u/784056?v=4" width="100px;"/><br /><sub><b>elrumordelaluz</b></sub>](https://github.com/elrumordelaluz)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=elrumordelaluz "Code") | [<img src="https://avatars2.githubusercontent.com/u/21217?v=4" width="100px;"/><br /><sub><b>cjb</b></sub>](https://github.com/cjb)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=cjb "Code") | [<img src="https://avatars1.githubusercontent.com/u/5427083?v=4" width="100px;"/><br /><sub><b>Krzysztof-Cieslak</b></sub>](https://github.com/Krzysztof-Cieslak)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=Krzysztof-Cieslak "Code") | [<img src="https://avatars0.githubusercontent.com/u/2369851?v=4" width="100px;"/><br /><sub><b>fernahh</b></sub>](https://github.com/fernahh)<br />[📖](https://github.com/dawnlabs/carbon/commits?author=fernahh "Documentation") |
 | [<img src="https://avatars1.githubusercontent.com/u/10941033?v=4" width="100px;"/><br /><sub><b>g3r4n</b></sub>](https://github.com/g3r4n)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=g3r4n "Code") | [<img src="https://avatars0.githubusercontent.com/u/55830?v=4" width="100px;"/><br /><sub><b>Mat Gadd</b></sub>](http://drarok.com/)<br />[🐛](https://github.com/dawnlabs/carbon/issues?q=author%3ADrarok "Bug reports") [💻](https://github.com/dawnlabs/carbon/commits?author=Drarok "Code") | [<img src="https://avatars1.githubusercontent.com/u/11805775?v=4" width="100px;"/><br /><sub><b>Brad Davies</b></sub>](https://bradlab.co.uk)<br />[🐛](https://github.com/dawnlabs/carbon/issues?q=author%3Avarbrad "Bug reports") [💻](https://github.com/dawnlabs/carbon/commits?author=varbrad "Code") | [<img src="https://avatars1.githubusercontent.com/u/9087886?v=4" width="100px;"/><br /><sub><b>Rafael Câmara</b></sub>](http://www.rafaelcamaram.com/)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=rafaelcamaram "Code") | [<img src="https://avatars1.githubusercontent.com/u/2212006?v=4" width="100px;"/><br /><sub><b>Gleb Bahmutov</b></sub>](https://glebbahmutov.com/)<br />[⚠️](https://github.com/dawnlabs/carbon/commits?author=bahmutov "Tests") [🔧](#tool-bahmutov "Tools") | [<img src="https://avatars2.githubusercontent.com/u/10677789?v=4" width="100px;"/><br /><sub><b>Iván Munguía</b></sub>](https://ivan-munguia.netlify.com)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=warborn "Code") | [<img src="https://avatars1.githubusercontent.com/u/2755722?v=4" width="100px;"/><br /><sub><b>Dillon Mulroy</b></sub>](https://dillonmulroy.com)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=dmmulroy "Code") |
 | [<img src="https://avatars2.githubusercontent.com/u/253398?v=4" width="100px;"/><br /><sub><b>Nihad Abbasov</b></sub>](https://github.com/NARKOZ)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=NARKOZ "Code") | [<img src="https://avatars1.githubusercontent.com/u/7328625?v=4" width="100px;"/><br /><sub><b>Hugo Torzuoli</b></sub>](https://torzuolih.github.io)<br />[📖](https://github.com/dawnlabs/carbon/commits?author=TorzuoliH "Documentation") | [<img src="https://avatars1.githubusercontent.com/u/1906977?v=4" width="100px;"/><br /><sub><b>Bruno C. Couto</b></sub>](https://github.com/bruno02221)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=bruno02221 "Code") | [<img src="https://avatars2.githubusercontent.com/u/13263073?v=4" width="100px;"/><br /><sub><b>Mark Molnar</b></sub>](https://github.com/molnarmark)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=molnarmark "Code") | [<img src="https://avatars1.githubusercontent.com/u/1459450?v=4" width="100px;"/><br /><sub><b>Takahiko Inayama</b></sub>](https://www.behance.net/tetra2000)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=TETRA2000 "Code") | [<img src="https://avatars1.githubusercontent.com/u/14319020?v=4" width="100px;"/><br /><sub><b>François Martin</b></sub>](https://github.com/martinfrancois)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=martinfrancois "Code") | [<img src="https://avatars3.githubusercontent.com/u/3630346?v=4" width="100px;"/><br /><sub><b>Raphael Amorim</b></sub>](http://raphamorim.io)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=raphamorim "Code") |
+| [<img src="https://avatars0.githubusercontent.com/u/27292?v=4" width="100px;"/><br /><sub><b>Camron Flanders</b></sub>](http://camronflanders.com)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=camflan "Code") | [<img src="https://avatars0.githubusercontent.com/u/6516758?v=4" width="100px;"/><br /><sub><b>Eric Adamski</b></sub>](https://ericadamski.github.com)<br />[💻](https://github.com/dawnlabs/carbon/commits?author=ericadamski "Code") |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
